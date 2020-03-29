@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Way2Go</string>
+    <string name="input_string">input the following fields</string>
+    <string name="name_bob">Name(Bob)</string>
+    <string name="date_of_event_00_00_00">Date of event (00/00/00)</string>
+    <string name="time_of_date_00_00">Time of date (00:00)</string>
+    <string name="email_bob_gmail_com">Email (Bob@gmail.com)</string>
+    <string name="phone_000_0000000">phone (000-0000000)</string>
+    <string name="submit">Submit</string>
+    <string name="manage_an_event">Manage an event</string>
+    <string name="a_Participant">a Participant</string>
+    <string name="Way_2_go">Way2go</string>
+    <string name="enter_your_num_event">Enter your num event</string>
+    <string name="num_event">num event</string>
+</resources>
