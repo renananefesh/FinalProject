@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ParcitipantActivity"></activity>
+        <activity android:name=".activity_manager"></activity>
+        <activity android:name=".ParcitipantActivity" />
         <activity android:name=".addParticipants" />
         <activity android:name=".activity2" />
         <activity android:name=".MainActivity">

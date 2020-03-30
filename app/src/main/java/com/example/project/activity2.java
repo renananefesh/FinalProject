@@ -1,27 +1,16 @@
 package com.example.project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.os.Bundle;
 
-<<<<<<< HEAD
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class activity2 extends AppCompatActivity {
     private Button button;
 
 
-=======
-public class activity2 extends AppCompatActivity {
-    private Button button;
-
->>>>>>> 380bffe1de147263b3c090abcbeea016c1d2550d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +29,5 @@ public class activity2 extends AppCompatActivity {
     public void addParticipants() {
         Intent intent = new Intent(this, addParticipants.class);
         startActivity(intent);
-        }
-
+    }
 }

@@ -1,27 +1,18 @@
 package com.example.project;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
-<<<<<<< HEAD
+import androidx.appcompat.app.AppCompatActivity;
 
-=======
->>>>>>> 380bffe1de147263b3c090abcbeea016c1d2550d
+public class MainActivity extends AppCompatActivity {
+
+
     Databasehelper eventDB;
     private Button maneger_button;
     private Button participant_button;
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 380bffe1de147263b3c090abcbeea016c1d2550d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
