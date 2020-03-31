@@ -10,40 +10,39 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
 
-    Databasehelper eventDB;
-    private Button maneger_button;
+    //Databasehelper eventDB;
+    private Button manager_button;
     private Button participant_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        eventDB = new Databasehelper(this);//call constructer of helper that will crete the DB
+       // eventDB = new Databasehelper(this);//call constructer of helper that will crete the DB
         participant_button = (Button) findViewById(R.id.participant_button);
-        participant_button.setOnClickListener(new View.OnClickListener()
-        {
+        participant_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openParticipantPage();
             }
         });
 
-        maneger_button = (Button) findViewById(R.id.maneger_button);
-        maneger_button.setOnClickListener(new View.OnClickListener() {
+        manager_button = (Button) findViewById(R.id.manager_button);
+        manager_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openManegerPage();
+                openManagerPage();
 
             }
 
         });
     }
-    public void openManegerPage() {
-        Intent intent = new Intent(this, activity2.class);
+    public void openManagerPage() {
+        Intent intent = new Intent(this, activity_manager.class);
         startActivity(intent);
     }
 
     public void openParticipantPage() {
-        Intent intent = new Intent(this, ParcitipantActivity.class);
+        Intent intent = new Intent(this, activity_participant.class);
         startActivity(intent);
     }
 
