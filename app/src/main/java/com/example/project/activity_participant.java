@@ -7,11 +7,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class activity_participant extends AppCompatActivity {
-ParticipantsTable participantsTable;
-EditText eventNumber;
-Button button;
+    ParticipantsTable participantsTable;
+    EditText eventNumber;
+    Button button;
+    DatabaseReference reff;
+    EventTable eventTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,8 @@ Button button;
                  fillInParticipantDetails();
              }
          });
+
+        reff = FirebaseDatabase.getInstance().getReference().child("EventTable");
     }
 public void  fillInParticipantDetails(){
     Intent intent = new Intent(this, activity_participantDetails.class);

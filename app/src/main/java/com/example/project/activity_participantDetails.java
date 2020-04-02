@@ -9,12 +9,16 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class activity_participantDetails extends AppCompatActivity {
+public class
+
+
+activity_participantDetails extends AppCompatActivity {
     EditText name, departLocation, leavingTime, address, emptySpots;
     TextView textView;
     Button btnsubmit;
@@ -39,6 +43,7 @@ public class activity_participantDetails extends AppCompatActivity {
         btnsubmit= findViewById(R.id.submit);
         emptySpots = (EditText) findViewById(R.id.number_of_empty_spots);
         participantsTable = new ParticipantsTable();
+        radioButton = findViewById(R.id.driver);
 
         reff = FirebaseDatabase.getInstance().getReference().child("ParticipantTable");
 
@@ -48,7 +53,7 @@ public class activity_participantDetails extends AppCompatActivity {
                 participantsTable.setName(name.getText().toString().trim());
                 participantsTable.setDepartLocation(departLocation.getText().toString().trim());
                 participantsTable.setLeavingTime(leavingTime.getText().toString().trim());
-                participantsTable.setAddress(address.getText().toString().trim());
+              //  participantsTable.setAddress(address.getText().toString().trim());
                 //participantsTable.setDriver(driver);
                 //participantsTable.getPassenger(passenger.
 
@@ -61,12 +66,26 @@ public class activity_participantDetails extends AppCompatActivity {
 
 //not working
 public void checkButton(View v){
-    int radioID = radioGroup.getCheckedRadioButtonId();
-    radioButton = findViewById(radioID);
-    if (radioButton.getText()=="driver"){
-        emptySpots.setVisibility(View.VISIBLE);
-        leavingTime.setVisibility(View.VISIBLE);
+    boolean checked = ((RadioButton) v).isChecked();
+
+    // Check which radio button was clicked
+    switch(v.getId()) {
+        case R.id.driver:
+            if (checked)
+                emptySpots.setVisibility(View.VISIBLE);
+                leavingTime.setVisibility(View.VISIBLE);
+            break;
+        case R.id.passenger:
+            if (checked)
+                emptySpots.setVisibility(View.INVISIBLE);
+                leavingTime.setVisibility(View.INVISIBLE);
+                ;//update database
+            break;
     }
 }
+
+
+
+
 
 }
