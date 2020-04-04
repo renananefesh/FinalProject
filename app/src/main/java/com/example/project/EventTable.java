@@ -15,6 +15,7 @@ public class EventTable {
         this.managerName = managerName;
     }
 
+
     public String getDate() {
         return date;
     }

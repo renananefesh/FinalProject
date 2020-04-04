@@ -9,21 +9,6 @@
     >
 
     <EditText
-        android:id="@+id/leaving_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="234dp"
-        android:ems="10"
-        android:hint="leaving time"
-        android:inputType="time"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="308dp" />
-
-    <EditText
         android:id="@+id/number_of_empty_spots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginBottom="176dp"
+        android:layout_marginBottom="264dp"
         android:ems="10"
         android:hint="number of empty spots"
         android:inputType="numberSigned"
@@ -90,43 +75,56 @@
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="187dp"
-        android:text="Typae of traveler:" />
-
+        android:text="Type of traveler:" />
 
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
+        <RadioButton
+            android:id="@+id/passenger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="220dp"
+            android:onClick="checkButton"
+            android:text="passenger" />
 
+        <RadioButton
+            android:id="@+id/driver"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="1dp"
+            android:onClick="checkButton"
+            android:text="driver" />
 
-    <RadioButton
-        android:id="@+id/passenger"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="279dp"
-        android:onClick="checkButton"
-        android:text="passenger" />
-
-    <RadioButton
-        android:id="@+id/driver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="128dp"
-        android:layout_marginLeft="128dp"
-        android:layout_marginTop="232dp"
-        android:onClick="checkButton"
-        android:text="driver" />
+        <EditText
+            android:id="@+id/leaving_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="60dp"
+            android:ems="10"
+            android:hint="leaving time"
+            android:inputType="time"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="368dp" />
 
     </RadioGroup>
 </RelativeLayout>

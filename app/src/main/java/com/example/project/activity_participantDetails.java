@@ -26,6 +26,7 @@ activity_participantDetails extends AppCompatActivity {
     RadioButton radioButton;
     DatabaseReference reff;
     ParticipantsTable participantsTable;
+    validation valid;
 
     //    Databasehelper eventDB;
 //    private Button maneger_button;
@@ -39,53 +40,93 @@ activity_participantDetails extends AppCompatActivity {
         leavingTime = (EditText) findViewById(R.id.leaving_time);
         address = (EditText) findViewById(R.id.address);
         radioGroup = findViewById(R.id.radioGroup);
-        textView= findViewById(R.id.type_of_traveler);
-        btnsubmit= findViewById(R.id.submit);
+        textView = findViewById(R.id.type_of_traveler);
+        btnsubmit = findViewById(R.id.submit);
         emptySpots = (EditText) findViewById(R.id.number_of_empty_spots);
         participantsTable = new ParticipantsTable();
         radioButton = findViewById(R.id.driver);
+        valid = new validation();
 
         reff = FirebaseDatabase.getInstance().getReference().child("ParticipantTable");
 
         btnsubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                participantsTable.setName(name.getText().toString().trim());
-                participantsTable.setDepartLocation(departLocation.getText().toString().trim());
-                participantsTable.setLeavingTime(leavingTime.getText().toString().trim());
-              //  participantsTable.setAddress(address.getText().toString().trim());
-                //participantsTable.setDriver(driver);
-                //participantsTable.getPassenger(passenger.
 
-                participantsTable.setEmptySpots(emptySpots.getText().toString().trim());
-                reff.push().setValue(participantsTable);
-                Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                if (validAll()) {
+
+                    participantsTable.setName(name.getText().toString().trim());
+                    participantsTable.setDepartLocation(departLocation.getText().toString().trim());
+                    participantsTable.setLeavingTime(leavingTime.getText().toString().trim());
+                    //  participantsTable.setAddress(address.getText().toString().trim());
+                    //participantsTable.setDriver(driver);
+                    //participantsTable.getPassenger(passenger.
+
+                    participantsTable.setEmptySpots(emptySpots.getText().toString().trim());
+                    reff.push().setValue(participantsTable);
+                    Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                }
             }
-       });
-   }
+        });
+    }
 
-//not working
-public void checkButton(View v){
-    boolean checked = ((RadioButton) v).isChecked();
+    //function that check if one of the radio button has clicked
+    public void checkButton(View v) {
+        boolean checked = ((RadioButton) v).isChecked();
 
-    // Check which radio button was clicked
-    switch(v.getId()) {
-        case R.id.driver:
-            if (checked)
-                emptySpots.setVisibility(View.VISIBLE);
+        // Check which radio button was clicked
+        switch (v.getId()) {
+            case R.id.driver:
+                if (checked)
+                    emptySpots.setVisibility(View.VISIBLE);
                 leavingTime.setVisibility(View.VISIBLE);
-            break;
-        case R.id.passenger:
-            if (checked)
-                emptySpots.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.passenger:
+                if (checked)
+                    emptySpots.setVisibility(View.INVISIBLE);
                 leavingTime.setVisibility(View.INVISIBLE);
                 ;//update database
-            break;
+                break;
+        }
+    }
+
+    //main function that responsible of all validation
+    public boolean validAll() {
+        if (isEmpty()) ;
+        return (validTime());
+    }
+
+    //function that check if the user did not insert values to the fields
+    public boolean isEmpty() {
+        String Name = name.getText().toString();
+        String DepartLocation = departLocation.getText().toString();
+        String LeavingTime = leavingTime.getText().toString();
+        String EmptySpots = emptySpots.getText().toString();
+
+
+        if (Name.matches("") || DepartLocation.matches("")) {//||Address.matches(""))||LeavingTime.matches("")  || EmptySpots.matches("")) {
+            Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //check if driver radio button has clicked and than check his fields
+        RadioButton rb;
+        rb = (RadioButton) findViewById(R.id.driver);
+        if (rb.isChecked()) ;
+        if (LeavingTime.matches("") || EmptySpots.matches("")) {
+            Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+
+    //function that check if time that user input is valid
+    public boolean validTime() {
+        if (valid.validTime(leavingTime.getText().toString())) {
+            Toast.makeText(this, "Time you entered is invalid", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
     }
 }
 
-
-
-
-
-}
