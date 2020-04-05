@@ -92,8 +92,9 @@ activity_participantDetails extends AppCompatActivity {
 
     //main function that responsible of all validation
     public boolean validAll() {
-        if (isEmpty()) ;
-        return (validTime());
+        if (isEmpty())
+            return (validTime());
+        return false;
     }
 
     //function that check if the user did not insert values to the fields
