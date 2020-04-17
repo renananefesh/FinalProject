@@ -42,7 +42,7 @@ public class newMember extends AppCompatActivity {
     }
 
     public void openParticipantPage() {
-        Intent intent = new Intent(this, activity_participant.class);
+        Intent intent = new Intent(this, ActivityParticipant.class);
         startActivity(intent);
     }
 

@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -23,9 +24,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    FirebaseFirestore firebaseFirestore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,10 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        firebaseFirestore = FirebaseFirestore.getInstance();
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
-        final Button SignUpButton= findViewById(R.id.signup);
+        final Button SignUpButton = findViewById(R.id.signup);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -113,9 +123,21 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                goToUserEventPage();
 
+                firebaseFirestore.collection("UserTable").document(usernameEditText.getText().toString()).get().
+                        addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().exists()) {
+                                    System.out.println(" the user exist moving to event page");
+                                    goToUserEventPage();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Username Doesn't Exist Please sign in", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
+
         });
 
         SignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -127,14 +149,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void goToUserEventPage(){
+    private void goToUserEventPage() {
         Intent intent = new Intent(this, UserEvents.class);
         startActivity(intent);
     }
-    private void goToNewUserPage(){
+
+    private void goToNewUserPage() {
         Intent intent = new Intent(this, NewUser.class);
         startActivity(intent);
     }
+
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience

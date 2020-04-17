@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class activity_participant extends AppCompatActivity {
+public class ActivityParticipant extends AppCompatActivity {
     ParticipantsTable participantsTable;
     EditText eventNumber;
     Button button;

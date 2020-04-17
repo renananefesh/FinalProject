@@ -43,7 +43,7 @@ public class UserEvents extends AppCompatActivity {
     }
 
     private void goToActivityParticipantPage(){
-        Intent intent = new Intent(this, activity_participant.class);
+        Intent intent = new Intent(this, ActivityParticipant.class);
         startActivity(intent);
     }
 }

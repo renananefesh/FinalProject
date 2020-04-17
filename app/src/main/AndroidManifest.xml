@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".activity_participantDetails" />
         <activity android:name=".activity_manager" />
-        <activity android:name=".activity_participant" />
+        <activity android:name=".ActivityParticipant" />
         <activity android:name=".getNumEvent" />
         <activity android:name=".newMember" />
     </application>

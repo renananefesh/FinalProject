@@ -24,31 +24,32 @@ public class NewUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user);
-        button = (Button) findViewById(R.id.signup);
 
-        username =(TextView) findViewById(R.id.username);
+        button = (Button) findViewById(R.id.sign_up);
+
+        username = (TextView) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         userTable = new UserTable();
         reff = FirebaseDatabase.getInstance().getReference().child("UserTable");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 userTable.setUsername(username.getText().toString().trim());
                 userTable.setPassword(password.getText().toString().trim());
 
 
-                    reff.push().setValue(userTable);
+                    reff.child("user1").setValue(userTable);
                     Toast.makeText(NewUser.this, "data inserted successfully", Toast.LENGTH_LONG).show();
                 goToUserEventPage();
-                }
+            }
+
+        });
+          }
+        private void goToUserEventPage () {
+            Intent intent = new Intent(this, UserEvents.class);
+            startActivity(intent);
+        }
 
 
-
-
-            });
-    }
-    private void goToUserEventPage(){
-        Intent intent = new Intent(this, UserEvents.class);
-        startActivity(intent);
-    }
 }
