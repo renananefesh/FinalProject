@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class newMember extends AppCompatActivity {
 
 
     //Databasehelper eventDB;
@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_newmember);
        // eventDB = new Databasehelper(this);//call constructer of helper that will crete the DB
         participant_button = (Button) findViewById(R.id.participant_button);
         participant_button.setOnClickListener(new View.OnClickListener() {

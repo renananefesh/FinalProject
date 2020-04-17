@@ -16,7 +16,7 @@ public class activity_manager extends AppCompatActivity {
     Button button;
     validation valid;
     DatabaseReference reff;
-    EventTable eventTable;
+    public EventTable eventTable;
 
 
     @Override

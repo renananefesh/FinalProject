@@ -7,6 +7,16 @@ public class EventTable {
     private String time;
     private String address;
     private String nameOfevent;
+    private String eventNumber;
+
+    public String getEventNumber() {
+        return eventNumber;
+    }
+
+    public void setEventNumber(String eventNumber) {
+        this.eventNumber = eventNumber;
+    }
+
     public String getManagerName() {
         return managerName;
     }
