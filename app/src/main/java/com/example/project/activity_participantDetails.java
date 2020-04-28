@@ -1,5 +1,6 @@
 package com.example.project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -65,9 +66,15 @@ activity_participantDetails extends AppCompatActivity {
                     participantsTable.setEmptySpots(emptySpots.getText().toString().trim());
                     reff.push().setValue(participantsTable);
                     Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                    goToUserEventPage();
                 }
             }
         });
+    }
+
+    private void goToUserEventPage() {
+        Intent intent = new Intent(this, UserEvents.class);
+        startActivity(intent);
     }
 
     //function that check if one of the radio button has clicked
@@ -105,18 +112,20 @@ activity_participantDetails extends AppCompatActivity {
         String EmptySpots = emptySpots.getText().toString();
 
 
-        if (Name.matches("") || DepartLocation.matches("")) {//||Address.matches(""))||LeavingTime.matches("")  || EmptySpots.matches("")) {
+        if (Name.matches("") || DepartLocation.matches("")) {
             Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+            return false; }
+
         //check if driver radio button has clicked and than check his fields
-        RadioButton rb;
-        rb = (RadioButton) findViewById(R.id.driver);
-        if (rb.isChecked()) ;
-        if (LeavingTime.matches("") || EmptySpots.matches("")) {
-            Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
-            return false;
+        RadioButton db;
+        db = (RadioButton) findViewById(R.id.driver);
+        if (db.isChecked()) {
+            if (LeavingTime.matches("") || EmptySpots.matches("")) {
+                Toast.makeText(this, "one or more of the fields are emptyyyyy", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
+
         return true;
     }
 
@@ -130,4 +139,3 @@ activity_participantDetails extends AppCompatActivity {
         return true;
     }
 }
-

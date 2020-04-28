@@ -36,7 +36,7 @@ public class ActivityParticipant extends AppCompatActivity {
 
 
 
-            button = (Button) findViewById(R.id.btnsubmit);
+        button = (Button) findViewById(R.id.btnsubmit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,4 +71,3 @@ public class ActivityParticipant extends AppCompatActivity {
     }
 
 }
-

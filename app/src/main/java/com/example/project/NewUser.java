@@ -39,17 +39,17 @@ public class NewUser extends AppCompatActivity {
                 userTable.setPassword(password.getText().toString().trim());
 
 
-                    reff.child("user1").setValue(userTable);
-                    Toast.makeText(NewUser.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                reff.child("user1").setValue(userTable);
+                Toast.makeText(NewUser.this, "Welcome to Way2Go ", Toast.LENGTH_LONG).show();
                 goToUserEventPage();
             }
 
         });
-          }
-        private void goToUserEventPage () {
-            Intent intent = new Intent(this, UserEvents.class);
-            startActivity(intent);
-        }
+    }
+    private void goToUserEventPage () {
+        Intent intent = new Intent(this, UserEvents.class);
+        startActivity(intent);
+    }
 
 
 }
