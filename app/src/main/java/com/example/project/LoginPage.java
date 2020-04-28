@@ -2,56 +2,50 @@ package com.example.project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.logging.Logger;
 
 public class LoginPage extends AppCompatActivity {
     private Button login_button, signin_button;
-
-
+EditText username, password;
+String filename = "test.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
-
-//        BufferedReader myr;
-//        String s="C:\\Users\\RenanaNefesh\\Downloads\\FinalProject-master\\app\\src\\main\\java\\com\\example\\project";
-//        BufferedReader reader = null;
-//        BufferedWriter writer = null;
-//        try {
-//            reader = new BufferedReader(new FileReader(s+"filename.txt"));
-//            writer = new BufferedWriter(new FileWriter(s));
-//
-//            writer.write(4);
-//
-//            String line = null;
-//            // read all the lines till the end
-//            while ((line = reader.readLine()) != null) {
-//                System.out.println(line);
-//            }
-//
-//            writer.close();
-//            reader.close();
-//        }
-//        catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-
-
         login_button = (Button) findViewById(R.id.loginbutton);
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openUserPage();
+                username =(EditText) findViewById(R.id.username);
+                password = (EditText) findViewById(R.id.password);
+              FileOutputStream fileOutputStream;
+            String s =  username.getText().toString();
+                try {
+                    fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    fileOutputStream.write(s.getBytes());
+                    fileOutputStream.write(5);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
