@@ -22,13 +22,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.logging.Logger;
 
 public class LoginPage extends AppCompatActivity {
     private Button login_button, signin_button;
     EditText username, password;
     String filename = "test.txt";
-    String text;
+    String text, thisUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +43,16 @@ public class LoginPage extends AppCompatActivity {
             public void onClick(View v) {
                 if (filename.toString() != null && filename.trim() != "") {
                     FileInputStream fileInputStream = null;
+                    InputStream inputStream       = null;
+                    try {
+                        inputStream = new FileInputStream("/data/data/com.example.project/files/test.txt");
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Reader inputStreamReader = new InputStreamReader(inputStream);
+
                     ///////////////////////////////////////////////////////////////////////////
-                    InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+                    //InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
                     //////////////////////////////////////////////////////////////////////////
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     StringBuilder stringBuilder = new StringBuilder();
@@ -52,11 +61,13 @@ public class LoginPage extends AppCompatActivity {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+                    thisUserName =username.getText().toString();
                     try {
                         while ((text = bufferedReader.readLine()) != null) {
-                            stringBuilder.append(text);
-                            if(text ==username.getText().toString())
-                                openUserPage();
+                            //stringBuilder.append(text);
+                            if(text.equals(thisUserName))
+                                 openUserPage();
+
                         }
                     } catch (Exception e) {
                         Toast.makeText(LoginPage.this, "no such user, please sign up ", Toast.LENGTH_LONG).show();
