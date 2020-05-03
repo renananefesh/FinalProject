@@ -29,7 +29,7 @@ public class LoginPage extends AppCompatActivity {
     private Button login_button, signin_button;
     EditText username, password;
     String filename = "test.txt";
-    String text, thisUserName;
+    String text, thisUserName,thisPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +51,25 @@ public class LoginPage extends AppCompatActivity {
                     }
                     Reader inputStreamReader = new InputStreamReader(inputStream);
 
-                    ///////////////////////////////////////////////////////////////////////////
-                    //InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-                    //////////////////////////////////////////////////////////////////////////
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                     StringBuilder stringBuilder = new StringBuilder();
-                    try {
-                        fileInputStream = openFileInput(filename);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
                     thisUserName =username.getText().toString();
+                    thisPassword=password.getText().toString();
                     try {
                         while ((text = bufferedReader.readLine()) != null) {
                             //stringBuilder.append(text);
-                            if(text.equals(thisUserName))
-                                 openUserPage();
+                            if(text.equals(thisUserName)) {
+                                text = bufferedReader.readLine();
+                                if(text.equals((thisPassword)))
+                                   openUserPage();
+                                   //return;
+                                else
+                                    Toast.makeText(LoginPage.this, "password is incorrect ", Toast.LENGTH_LONG).show();
+                                    return;
+                            }
 
                         }
+                        Toast.makeText(LoginPage.this, "no such user, please sign up", Toast.LENGTH_LONG).show();
                     } catch (Exception e) {
                         Toast.makeText(LoginPage.this, "no such user, please sign up ", Toast.LENGTH_LONG).show();
                     }
