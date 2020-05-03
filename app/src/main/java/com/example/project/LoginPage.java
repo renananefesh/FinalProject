@@ -103,6 +103,7 @@ public class LoginPage extends AppCompatActivity {
 
     public void openUserPage() {
         Intent intent = new Intent(this, UserEvents.class);
+        intent.putExtra("username", thisUserName);
         startActivity(intent);
     }
     public void openNewUserPage() {

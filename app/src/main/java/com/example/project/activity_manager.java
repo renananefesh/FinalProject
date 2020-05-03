@@ -1,21 +1,28 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 
 public class activity_manager extends AppCompatActivity {
     EditText managerName, date, time, address, nameOfevent;
     Button button;
     validation valid;
-    DatabaseReference reff;
     public EventTable eventTable;
 
 
@@ -28,22 +35,37 @@ public class activity_manager extends AppCompatActivity {
         time = (EditText) findViewById(R.id.time);
         address = (EditText) findViewById(R.id.address);
         nameOfevent = (EditText) findViewById(R.id.nameOfevent);
-        eventTable = new EventTable();
+
+
+
         valid = new validation();
-        reff = FirebaseDatabase.getInstance().getReference().child("EventTable");
 
         button = findViewById(R.id.btnsubmit);
         button.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
+                 String managernametext =  managerName.getText().toString();
+                 String datetext = date.getText().toString();
+                 String timetext =  time.getText().toString();
+                 String addresstext = address.getText().toString();
+                 String nameofeventtext = nameOfevent.getText().toString();
 
                 if (validAll()) {
-                    eventTable.setManagerName(managerName.getText().toString().trim());
-                    eventTable.setDate(date.getText().toString().trim());
-                    eventTable.setTime(time.getText().toString().trim());
-                    eventTable.setAddress(address.getText().toString().trim());
-                    eventTable.setNameOfevent(nameOfevent.getText().toString().trim());
-                    reff.push().setValue(eventTable);
+                    try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/weddingevent.txt", true);
+                        BufferedWriter bw = new BufferedWriter(fw);
+                        PrintWriter out = new PrintWriter(bw))
+                    {
+                        out.println(managernametext);
+                        out.println(datetext);
+                        out.println(timetext);
+                        out.println(addresstext);
+                        out.println(nameofeventtext);
+                        //more code
+                        //more code
+                    } catch (IOException e) {
+                        //exception handling left as an exercise for the reader
+                    }
                     getNumEvent();
                 }
             }

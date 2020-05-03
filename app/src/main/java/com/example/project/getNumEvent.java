@@ -1,9 +1,16 @@
 package com.example.project;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +24,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class getNumEvent extends AppCompatActivity {
     EditText eventnumber;
     private Button next_button;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participants);
         Random rand = new Random();
-        // DatabaseReference reff;
 
 
         // Generate random integers in range 0 to 999999
@@ -30,9 +37,15 @@ public class getNumEvent extends AppCompatActivity {
         eventnumber = findViewById(R.id.editText3);
         String num = String.valueOf(rand_int1);
         eventnumber.setText(num);
-        // reff = FirebaseDatabase.getInstance().getReference().child("EventTable");
-        // eventTable.setEventNumber(eventnumber.getText().toString().trim());
-        // reff.push().setValue(eventTable);
+        String numtext =  eventnumber.getText().toString();
+
+        try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/weddingevent.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw)) {
+            out.println(numtext);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         next_button = findViewById(R.id.nextbutton);
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
