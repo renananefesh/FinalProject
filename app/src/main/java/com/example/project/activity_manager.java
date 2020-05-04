@@ -23,6 +23,7 @@ public class activity_manager extends AppCompatActivity {
     EditText managerName, date, time, address, nameOfevent;
     Button button;
     validation valid;
+    String managernametext,datetext,timetext,addresstext,nameofeventtext;
     public EventTable eventTable;
 
 
@@ -45,11 +46,11 @@ public class activity_manager extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                 String managernametext =  managerName.getText().toString();
-                 String datetext = date.getText().toString();
-                 String timetext =  time.getText().toString();
-                 String addresstext = address.getText().toString();
-                 String nameofeventtext = nameOfevent.getText().toString();
+                  managernametext =  managerName.getText().toString();
+                  datetext = date.getText().toString();
+                  timetext =  time.getText().toString();
+                  addresstext = address.getText().toString();
+                  nameofeventtext = nameOfevent.getText().toString();
 
                 if (validAll()) {
                     try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/weddingevent.txt", true);
@@ -57,12 +58,11 @@ public class activity_manager extends AppCompatActivity {
                         PrintWriter out = new PrintWriter(bw))
                     {
                         out.println(managernametext);
+                        out.println(nameofeventtext);
                         out.println(datetext);
                         out.println(timetext);
                         out.println(addresstext);
-                        out.println(nameofeventtext);
-                        //more code
-                        //more code
+
                     } catch (IOException e) {
                         //exception handling left as an exercise for the reader
                     }
@@ -76,6 +76,8 @@ public class activity_manager extends AppCompatActivity {
     //here the manager will send a link to the people he wants to join or any other way
     public void getNumEvent() {
         Intent intent = new Intent(this, getNumEvent.class);
+        //for him to go to userEvents
+        intent.putExtra("username", managernametext);
         startActivity(intent);
     }
 

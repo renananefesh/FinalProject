@@ -24,11 +24,14 @@ import com.google.firebase.database.FirebaseDatabase;
 public class getNumEvent extends AppCompatActivity {
     EditText eventnumber;
     private Button next_button;
+    String user;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participants);
+        Intent in=getIntent();
+        user=in.getStringExtra("username");
         Random rand = new Random();
 
 
@@ -57,6 +60,7 @@ public class getNumEvent extends AppCompatActivity {
     }
     public void goToUserEvent() {
         Intent intent = new Intent(this, UserEvents.class);
+        intent.putExtra("username", user);
         startActivity(intent);
     }
 }

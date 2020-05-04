@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,27 +12,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class
 
 
 activity_participantDetails extends AppCompatActivity {
-    EditText name, departLocation, leavingTime, address, emptySpots;
+    EditText name, departLocation, leavingTime, address, emptySpots, price;
     TextView textView;
     Button btnsubmit;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    DatabaseReference reff;
     ParticipantsTable participantsTable;
     validation valid;
+    String sCurrentLine, username, departlocation, leavingtime, emptyspots;
 
-    //    Databasehelper eventDB;
-//    private Button maneger_button;
-//    private Button participant_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,37 +44,64 @@ activity_participantDetails extends AppCompatActivity {
         textView = findViewById(R.id.type_of_traveler);
         btnsubmit = findViewById(R.id.submit);
         emptySpots = (EditText) findViewById(R.id.number_of_empty_spots);
-        participantsTable = new ParticipantsTable();
         radioButton = findViewById(R.id.driver);
+        price = findViewById(R.id.price);
+
         valid = new validation();
-
-        reff = FirebaseDatabase.getInstance().getReference().child("ParticipantTable");
-
         btnsubmit.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
+                username = name.getText().toString();
+                departlocation = departLocation.getText().toString();
+                leavingtime = leavingTime.getText().toString();
+                emptyspots = emptySpots.getText().toString();
+                //  if (validAll()) {
 
-                if (validAll()) {
-
-                    participantsTable.setName(name.getText().toString().trim());
-                    participantsTable.setDepartLocation(departLocation.getText().toString().trim());
-                    participantsTable.setLeavingTime(leavingTime.getText().toString().trim());
-                    //  participantsTable.setAddress(address.getText().toString().trim());
-                    //participantsTable.setDriver(driver);
-                    //participantsTable.getPassenger(passenger.
-
-                    participantsTable.setEmptySpots(emptySpots.getText().toString().trim());
-                    reff.push().setValue(participantsTable);
-                    Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
-                    goToUserEventPage();
+                //open eventparticipants names and add it
+                try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_names.txt", true);
+                     BufferedWriter bw = new BufferedWriter(fw);
+                     PrintWriter out = new PrintWriter(bw)) {
+                    out.println(username);
+                } catch (Exception e) {
                 }
+
+                //open file of detales participants and add details
+                try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_details.txt", true);
+                     BufferedWriter bw = new BufferedWriter(fw);
+                     PrintWriter out = new PrintWriter(bw)) {
+                    out.println(username);
+                    out.println(departlocation);
+                    checkWhatInfoWasFilled(out, v);
+
+                } catch (Exception e) {
+                }
+
+
+                Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                goToUserEventPage();
             }
         });
     }
 
+    private void checkWhatInfoWasFilled(PrintWriter out, View v) {
+        boolean checked = ((RadioButton) v).isChecked();
+
+        // Check which radio button was clicked
+        switch (v.getId()) {
+            case R.id.driver:
+                if (checked)
+                    out.println(emptySpots);
+                out.println(leavingtime);
+                out.println(price);
+                break;
+        }
+    }
+
     private void goToUserEventPage() {
-        Intent intent = new Intent(this, UserEvents.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, UserEvents.class);
+//        intent.putExtra("username", username);
+//        startActivity(intent);
     }
 
     //function that check if one of the radio button has clicked
@@ -87,6 +114,8 @@ activity_participantDetails extends AppCompatActivity {
                 if (checked)
                     emptySpots.setVisibility(View.VISIBLE);
                 leavingTime.setVisibility(View.VISIBLE);
+                price.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.passenger:
                 if (checked)
@@ -106,15 +135,16 @@ activity_participantDetails extends AppCompatActivity {
 
     //function that check if the user did not insert values to the fields
     public boolean isEmpty() {
-        String Name = name.getText().toString();
+
         String DepartLocation = departLocation.getText().toString();
         String LeavingTime = leavingTime.getText().toString();
         String EmptySpots = emptySpots.getText().toString();
 
 
-        if (Name.matches("") || DepartLocation.matches("")) {
+        if (username.matches("") || departlocation.matches("")) {
             Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
-            return false; }
+            return false;
+        }
 
         //check if driver radio button has clicked and than check his fields
         RadioButton db;

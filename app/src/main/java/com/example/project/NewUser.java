@@ -32,7 +32,8 @@ public class NewUser extends AppCompatActivity {
     DatabaseReference reff;
     TextView username;
     EditText password;
-    String filename = "test.txt";
+
+    String filename = "test.txt",  name , pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +50,8 @@ public class NewUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FileOutputStream fileOutputStream;
-                String name =  username.getText().toString();
-                String pass = password.getText().toString();
+                name=  username.getText().toString();
+                pass = password.getText().toString();
 
                 try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/test.txt", true);
                     BufferedWriter bw = new BufferedWriter(fw);
@@ -72,6 +73,7 @@ public class NewUser extends AppCompatActivity {
         }
     private void goToUserEventPage () {
         Intent intent = new Intent(this, UserEvents.class);
+        intent.putExtra("username", name);
         startActivity(intent);
     }
 
