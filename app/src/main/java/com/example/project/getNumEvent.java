@@ -22,16 +22,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class getNumEvent extends AppCompatActivity {
-    EditText eventnumber;
-    private Button next_button;
-    String user;
+    String user, eventname;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EditText eventnumber;
+        Button next_button;
+        String path = "/data/data/com.example.project/files/eventsid.txt";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participants);
-        Intent in=getIntent();
-        user=in.getStringExtra("username");
+        Intent in = getIntent();
+        user = in.getStringExtra("username");
+        eventname = in.getStringExtra("eventname");
         Random rand = new Random();
 
 
@@ -40,12 +42,13 @@ public class getNumEvent extends AppCompatActivity {
         eventnumber = findViewById(R.id.editText3);
         String num = String.valueOf(rand_int1);
         eventnumber.setText(num);
-        String numtext =  eventnumber.getText().toString();
+        String numtext = eventnumber.getText().toString();
 
-        try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/weddingevent.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw)) {
+        try (FileWriter fw = new FileWriter(path, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
             out.println(numtext);
+            out.println(eventname);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,10 +60,12 @@ public class getNumEvent extends AppCompatActivity {
             }
 
         });
+
     }
-    public void goToUserEvent() {
-        Intent intent = new Intent(this, UserEvents.class);
-        intent.putExtra("username", user);
-        startActivity(intent);
-    }
+        public void goToUserEvent () {
+            Intent intent = new Intent(this, UserEvents.class);
+            intent.putExtra("username", user);
+            intent.putExtra("eventname", eventname);
+            startActivity(intent);
+        }
 }

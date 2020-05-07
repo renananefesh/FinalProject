@@ -27,9 +27,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 public class NewUser extends AppCompatActivity {
-    UserTable userTable;
     Button button;
-    DatabaseReference reff;
     TextView username;
     EditText password;
 
@@ -46,7 +44,7 @@ public class NewUser extends AppCompatActivity {
         //userTable = new UserTable();
         //reff = FirebaseDatabase.getInstance().getReference().child("UserTable");
         button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
+           @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 FileOutputStream fileOutputStream;

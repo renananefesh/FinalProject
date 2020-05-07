@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+
+
+
+
 public class LoginPage extends AppCompatActivity {
+
     private Button login_button, signin_button;
     EditText username, password;
     String filename = "test.txt";
@@ -25,6 +31,7 @@ public class LoginPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("onCreate", "in create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         login_button = (Button) findViewById(R.id.loginbutton);
@@ -83,7 +90,7 @@ public class LoginPage extends AppCompatActivity {
 
     public void openUserPage() {
         Intent intent = new Intent(this, UserEvents.class);
-        intent.putExtra("username", thisUserName);
+       intent.putExtra("username", thisUserName);
         startActivity(intent);
     }
     public void openNewUserPage() {

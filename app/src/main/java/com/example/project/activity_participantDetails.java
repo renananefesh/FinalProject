@@ -14,15 +14,19 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 
-public class
-
-
-activity_participantDetails extends AppCompatActivity {
+public class activity_participantDetails extends AppCompatActivity {
     EditText name, departLocation, leavingTime, address, emptySpots, price;
     TextView textView;
     Button btnsubmit;
@@ -30,7 +34,7 @@ activity_participantDetails extends AppCompatActivity {
     RadioButton radioButton;
     ParticipantsTable participantsTable;
     validation valid;
-    String sCurrentLine, username, departlocation, leavingtime, emptyspots;
+    String sCurrentLine, username, departlocation, leavingtime, emptyspots, path, numid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,9 @@ activity_participantDetails extends AppCompatActivity {
         emptySpots = (EditText) findViewById(R.id.number_of_empty_spots);
         radioButton = findViewById(R.id.driver);
         price = findViewById(R.id.price);
-
+        path = "/data/data/com.example.project/files/";
+        Intent in = getIntent();
+        numid = in.getStringExtra("number");
         valid = new validation();
         btnsubmit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -57,29 +63,51 @@ activity_participantDetails extends AppCompatActivity {
                 leavingtime = leavingTime.getText().toString();
                 emptyspots = emptySpots.getText().toString();
                 //  if (validAll()) {
-
+                String eventsid_path = "/data/data/com.example.project/files/eventsid.txt";
                 //open eventparticipants names and add it
-                try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_names.txt", true);
-                     BufferedWriter bw = new BufferedWriter(fw);
-                     PrintWriter out = new PrintWriter(bw)) {
-                    out.println(username);
-                } catch (Exception e) {
-                }
+                //put eventname
 
-                //open file of detales participants and add details
-                try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_details.txt", true);
-                     BufferedWriter bw = new BufferedWriter(fw);
-                     PrintWriter out = new PrintWriter(bw)) {
-                    out.println(username);
-                    out.println(departlocation);
-                    checkWhatInfoWasFilled(out, v);
+                    FileInputStream inputStream2 = null;
+                    try {
+                        inputStream2 = new FileInputStream(eventsid_path);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    Reader inputStreamReader2 = new InputStreamReader(inputStream2);
 
-                } catch (Exception e) {
-                }
+                    BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader2);
+                    StringBuilder stringBuilder2 = new StringBuilder();
+
+                    try {
+                        String text;
+                        while ((text = bufferedReader2.readLine()) != null)
+                            if (text.equals(numid)) {
+                                text = bufferedReader2.readLine();
+                                try (FileWriter fw = new FileWriter(path + text + " partic_names.txt", true);
+                                     BufferedWriter bw = new BufferedWriter(fw);
+                                     PrintWriter out = new PrintWriter(bw)) {
+                                    out.println(username);
+                                }
+                            }
+
+                        //open file of detales participants and add details
+                        try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_details.txt", true);
+                             BufferedWriter bw = new BufferedWriter(fw);
+                             PrintWriter out = new PrintWriter(bw)) {
+                            out.println(username);
+                            out.println(departlocation);
+                            checkWhatInfoWasFilled(out, v);
+
+                        } catch (Exception e) {
+                        }
 
 
-                Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
-                goToUserEventPage();
+                        Toast.makeText(activity_participantDetails.this, "data inserted successfully", Toast.LENGTH_LONG).show();
+                        goToUserEventPage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
             }
         });
     }
@@ -99,9 +127,9 @@ activity_participantDetails extends AppCompatActivity {
     }
 
     private void goToUserEventPage() {
-//        Intent intent = new Intent(this, UserEvents.class);
-//        intent.putExtra("username", username);
-//        startActivity(intent);
+        Intent intent = new Intent(this, UserEvents.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     //function that check if one of the radio button has clicked
@@ -168,4 +196,5 @@ activity_participantDetails extends AppCompatActivity {
         }
         return true;
     }
+
 }

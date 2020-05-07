@@ -23,8 +23,7 @@ public class activity_manager extends AppCompatActivity {
     EditText managerName, date, time, address, nameOfevent;
     Button button;
     validation valid;
-    String managernametext,datetext,timetext,addresstext,nameofeventtext;
-    public EventTable eventTable;
+    String managernametext,datetext,timetext,addresstext,nameofeventtext, path, path2;
 
 
     @Override
@@ -51,17 +50,22 @@ public class activity_manager extends AppCompatActivity {
                   timetext =  time.getText().toString();
                   addresstext = address.getText().toString();
                   nameofeventtext = nameOfevent.getText().toString();
-
+                path ="/data/data/com.example.project/files/"+nameofeventtext+".txt";
+                path2 = "/data/data/com.example.project/files/eventnames.txt";
                 if (validAll()) {
-                    try(FileWriter fw = new FileWriter("/data/data/com.example.project/files/weddingevent.txt", true);
+                    try(FileWriter fw = new FileWriter(path, true);
                         BufferedWriter bw = new BufferedWriter(fw);
-                        PrintWriter out = new PrintWriter(bw))
+                        PrintWriter out = new PrintWriter(bw);
+                    FileWriter fw2 = new FileWriter(path2, true);
+                    BufferedWriter bw2 = new BufferedWriter(fw2);
+                    PrintWriter out2 = new PrintWriter(bw2))
                     {
                         out.println(managernametext);
                         out.println(nameofeventtext);
                         out.println(datetext);
                         out.println(timetext);
                         out.println(addresstext);
+                        out2.println(nameofeventtext);
 
                     } catch (IOException e) {
                         //exception handling left as an exercise for the reader
@@ -76,8 +80,9 @@ public class activity_manager extends AppCompatActivity {
     //here the manager will send a link to the people he wants to join or any other way
     public void getNumEvent() {
         Intent intent = new Intent(this, getNumEvent.class);
-        //for him to go to userEvents
+      //  for him to go to userEvents
         intent.putExtra("username", managernametext);
+        intent.putExtra("eventname", nameofeventtext);
         startActivity(intent);
     }
 
