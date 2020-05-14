@@ -10,11 +10,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -32,9 +29,9 @@ public class activity_participantDetails extends AppCompatActivity {
     Button btnsubmit;
     RadioGroup radioGroup;
     RadioButton radioButton;
-    ParticipantsTable participantsTable;
     validation valid;
-    String sCurrentLine, username, departlocation, leavingtime, emptyspots, path, numid;
+    boolean isPressed = false;
+    String username, departlocation, leavingtime, emptyspots, path, numid, pricetravel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +59,11 @@ public class activity_participantDetails extends AppCompatActivity {
                 departlocation = departLocation.getText().toString();
                 leavingtime = leavingTime.getText().toString();
                 emptyspots = emptySpots.getText().toString();
-                //  if (validAll()) {
-                String eventsid_path = "/data/data/com.example.project/files/eventsid.txt";
-                //open eventparticipants names and add it
-                //put eventname
+                pricetravel = price.getText().toString();
 
+                if (validAll()) {
+                    isPressed = false;
+                    String eventsid_path = "/data/data/com.example.project/files/eventsid.txt";
                     FileInputStream inputStream2 = null;
                     try {
                         inputStream2 = new FileInputStream(eventsid_path);
@@ -74,7 +71,6 @@ public class activity_participantDetails extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Reader inputStreamReader2 = new InputStreamReader(inputStream2);
-
                     BufferedReader bufferedReader2 = new BufferedReader(inputStreamReader2);
                     StringBuilder stringBuilder2 = new StringBuilder();
 
@@ -83,21 +79,21 @@ public class activity_participantDetails extends AppCompatActivity {
                         while ((text = bufferedReader2.readLine()) != null)
                             if (text.equals(numid)) {
                                 text = bufferedReader2.readLine();
-                                try (FileWriter fw = new FileWriter(path + text + " partic_names.txt", true);
+                                try (FileWriter fw = new FileWriter(path + text + "_partic_names.txt", true);
                                      BufferedWriter bw = new BufferedWriter(fw);
                                      PrintWriter out = new PrintWriter(bw)) {
                                     out.println(username);
+
                                 }
                             }
 
                         //open file of detales participants and add details
-                        try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/wedding_partic_details.txt", true);
+                        try (FileWriter fw = new FileWriter(path +"_particepant_details.txt", true);
                              BufferedWriter bw = new BufferedWriter(fw);
                              PrintWriter out = new PrintWriter(bw)) {
                             out.println(username);
                             out.println(departlocation);
                             checkWhatInfoWasFilled(out, v);
-
                         } catch (Exception e) {
                         }
 
@@ -107,22 +103,23 @@ public class activity_participantDetails extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                }
 
             }
         });
     }
-
+    //this function Check if driver radio button was clicked and write his details in file
     private void checkWhatInfoWasFilled(PrintWriter out, View v) {
         boolean checked = ((RadioButton) v).isChecked();
 
-        // Check which radio button was clicked
         switch (v.getId()) {
             case R.id.driver:
-                if (checked)
+                if (checked) {
                     out.println(emptySpots);
-                out.println(leavingtime);
-                out.println(price);
-                break;
+                    out.println(leavingtime);
+                    out.println(price);
+                    break;
+                }
         }
     }
 
@@ -132,24 +129,25 @@ public class activity_participantDetails extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //function that check if one of the radio button has clicked
+    //this function check if one of the radio button has clicked
     public void checkButton(View v) {
         boolean checked = ((RadioButton) v).isChecked();
 
         // Check which radio button was clicked
         switch (v.getId()) {
             case R.id.driver:
-                if (checked)
+                if (checked) {
                     emptySpots.setVisibility(View.VISIBLE);
-                leavingTime.setVisibility(View.VISIBLE);
-                price.setVisibility(View.VISIBLE);
-
+                    leavingTime.setVisibility(View.VISIBLE);
+                    price.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.passenger:
-                if (checked)
+                if (checked) {
                     emptySpots.setVisibility(View.INVISIBLE);
-                leavingTime.setVisibility(View.INVISIBLE);
-                ;//update database
+                    leavingTime.setVisibility(View.INVISIBLE);
+                    price.setVisibility(View.INVISIBLE);
+                }
                 break;
         }
     }
@@ -157,16 +155,14 @@ public class activity_participantDetails extends AppCompatActivity {
     //main function that responsible of all validation
     public boolean validAll() {
         if (isEmpty())
-            return (validTime());
+            if (!isPressed)
+                return (validTime());
+            else return true;
         return false;
     }
 
     //function that check if the user did not insert values to the fields
     public boolean isEmpty() {
-
-        String DepartLocation = departLocation.getText().toString();
-        String LeavingTime = leavingTime.getText().toString();
-        String EmptySpots = emptySpots.getText().toString();
 
 
         if (username.matches("") || departlocation.matches("")) {
@@ -175,15 +171,19 @@ public class activity_participantDetails extends AppCompatActivity {
         }
 
         //check if driver radio button has clicked and than check his fields
-        RadioButton db;
+        RadioButton db, pd;
         db = (RadioButton) findViewById(R.id.driver);
+        pd = (RadioButton) findViewById(R.id.passenger);
+        if (pd.isChecked()) {
+            isPressed = true;
+            return true;
+        }
         if (db.isChecked()) {
-            if (LeavingTime.matches("") || EmptySpots.matches("")) {
-                Toast.makeText(this, "one or more of the fields are emptyyyyy", Toast.LENGTH_SHORT).show();
+            if (leavingtime.matches("") || emptyspots.matches("") || pricetravel.matches("")) {
+                Toast.makeText(this, "one or more of the fields are empty", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-
         return true;
     }
 
