@@ -22,7 +22,7 @@ public class LoginPage extends AppCompatActivity {
     private Button login_button, signin_button;
     EditText username, password;
     String filename = "test.txt";
-    String text, thisUserName, thisPassword;
+    String text, thisUserName, thisPassword, path ="/data/data/com.example.project/files/test.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,14 @@ public class LoginPage extends AppCompatActivity {
                     FileInputStream fileInputStream = null;
                     InputStream inputStream = null;
                     try {
-                        inputStream = new FileInputStream("/data/data/com.example.project/files/test.txt");
+                        inputStream = new FileInputStream(path);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                     Reader inputStreamReader = new InputStreamReader(inputStream);
 
                     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    StringBuilder stringBuilder = new StringBuilder();
+
                     thisUserName = username.getText().toString();
                     thisPassword = password.getText().toString();
                     try {

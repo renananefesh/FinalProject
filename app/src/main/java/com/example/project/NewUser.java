@@ -12,18 +12,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 public class NewUser extends AppCompatActivity {
     Button button;
     TextView username;
     EditText password;
-    String filename = "test.txt", name, pass;
-
+    String filename = "test.txt", name, pass, path = "/data/data/com.example.project/files/test.txt";
+    Boolean aprovedName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +37,31 @@ public class NewUser extends AppCompatActivity {
         button = (Button) findViewById(R.id.sign_up);
         username = (TextView) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 FileOutputStream fileOutputStream;
                 name = username.getText().toString();
+                try {
+                   aprovedName = checkUserNameTaken(name);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 pass = password.getText().toString();
-                try (FileWriter fw = new FileWriter("/data/data/com.example.project/files/test.txt", true);
+                try (FileWriter fw = new FileWriter(path, true);
                      BufferedWriter bw = new BufferedWriter(fw);
                      PrintWriter out = new PrintWriter(bw)) {
-                    out.println(name);
-                    out.println(pass);
+                    if(aprovedName) {
+                        out.println(name);
+                        out.println(pass);
+                    }
+                    else
+                    {
+                        //TODO raise notice to pick a different user name;
+                    }
                 } catch (IOException e) {
                 }
 
@@ -59,5 +78,21 @@ public class NewUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    private Boolean checkUserNameTaken(String name) throws IOException {
+        InputStream inputStream = null;
+        String usedNames;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Reader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        while ((usedNames = bufferedReader.readLine()) != null) {
+            if (usedNames.equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -34,7 +34,6 @@ public class UserEvents extends AppCompatActivity {
         button_participant = (Button) findViewById(R.id.sing_into_activity);
         Intent in = getIntent();
         user = in.getStringExtra("username");
-        //eventname = in.getStringExtra("eventname");
         InputStream inputStream = null, inputStream1 = null, inputStream2 = null;
         path = "/data/data/com.example.project/files/";
         path2 = "/data/data/com.example.project/files/eventnames.txt";
