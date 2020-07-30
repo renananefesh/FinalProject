@@ -121,6 +121,7 @@ public class UserEvents extends AppCompatActivity {
 
     private void goToActivityParticipantPage() {
         Intent intent = new Intent(this, ActivityParticipant.class);
+        intent.putExtra("username", user);
         startActivity(intent);
     }
     //this function create ner button for the events that user maneging

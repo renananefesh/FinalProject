@@ -60,7 +60,8 @@ public class NewUser extends AppCompatActivity {
                     }
                     else
                     {
-                        //TODO raise notice to pick a different user name;
+                        Toast.makeText(NewUser.this, "Username is taken, please choose a different one ", Toast.LENGTH_LONG).show();
+                        return;
                     }
                 } catch (IOException e) {
                 }
