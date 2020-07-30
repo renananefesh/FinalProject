@@ -4,23 +4,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/white_seb"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserEvents">
 
+
+
     <TextView
         android:id="@+id/your_events"
-
-        android:layout_width="117dp"
-        android:layout_height="61dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="151dp"
-        android:layout_marginLeft="151dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="25dp"
+
         android:text="Your Events"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,30 +34,33 @@
 
     <TextView
         android:id="@+id/particapant_event_title"
-
-        android:layout_width="203dp"
-        android:layout_height="wrap_content"
+        android:layout_width="231dp"
+        android:layout_height="53dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="73dp"
-        android:layout_marginLeft="73dp"
-        android:layout_marginTop="333dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="329dp"
         android:text="You are participating in:"
+        android:textColor="#004d4d"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/your_events" />
 
     <TextView
         android:id="@+id/managing_events_title"
-
+        android:textColor="#004d4d"
+        android:textSize="20sp"
         android:layout_width="197dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginLeft="54dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="112dp"
         android:text="The event you are managing:"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,14 +70,16 @@
 
     <Button
         android:id="@+id/manage_a_new_activity"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-
         android:layout_alignParentBottom="true"
         android:layout_marginStart="45dp"
         android:layout_marginLeft="45dp"
-        android:layout_marginBottom="55dp"
-        android:text="New activity"
+        android:layout_marginBottom="52dp"
+        android:background="@drawable/custom_button"
+
+        android:text="Open new activity"
+        android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/managing_events_title" />
@@ -76,18 +87,20 @@
     <Button
         android:id="@+id/sing_into_activity"
 
-        android:layout_width="184dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="52dp"
         android:text="Sign into activity"
+        android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/manage_a_new_activity"
-        app:layout_constraintTop_toBottomOf="@+id/your_events" />
+        app:layout_constraintTop_toBottomOf="@+id/your_events"
+        android:background="@drawable/custom_button"/>
 
 </RelativeLayout>
