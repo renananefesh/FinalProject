@@ -69,6 +69,7 @@ public class EventPage extends AppCompatActivity {
         public void goToMapActivity() {
             Intent intent = new Intent(this, AppMap.class);
             intent.putExtra("address", address);
+            intent.putExtra("eventname", eventname);
             startActivity(intent);
         }
 
