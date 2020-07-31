@@ -50,7 +50,6 @@ public class UserEvents extends AppCompatActivity {
 
             Reader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuilder stringBuilder = new StringBuilder();
 
             try {
                 //for each event try to see if the user is managing it

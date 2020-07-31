@@ -2,10 +2,8 @@ package com.example.project;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,55 +12,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    String path = "/data/data/com.example.project/files/", text;
-    InputStream inputStream;
     private GoogleMap mMap;
-    int num =0;
-
+    String address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        Intent in = getIntent();
+        address = in.getStringExtra("address");
+        setContentView(R.layout.activity_app_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        try {
-            inputStream = new FileInputStream(path + "wedding_partic_details " + ".txt");
-        } catch (Exception e) {
-
-        }
-        Reader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        try {
-            text = bufferedReader.readLine();// its manager name we don't need
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        while (true) {
-            try {
-                while (!((text = bufferedReader.readLine()) != null))
-                    if (num % 2 == 0)
-                        num++;
-                    else {
-                        //ליצור נקודה על המפה עם הכתובת
-                    }
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ;
-        }
     }
 
 
@@ -83,8 +46,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
-
     }
 }
