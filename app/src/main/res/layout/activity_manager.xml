@@ -9,19 +9,90 @@
     android:background="@drawable/white_seb"
     tools:visibility="visible">
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/ic_account_circle_black_24dp">
+
+    </ImageView>
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="240dp"
+        android:src="@drawable/ic_access_alarm_black_24dp">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="155dp"
+        android:src="@drawable/ic_event_black_24dp">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="315dp"
+        android:src="@drawable/ic_date_range_black_24dp">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="46dp"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="390dp"
+        android:src="@drawable/ic_add_location_black_24dp">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/your_events"
+        android:layout_width="367dp"
+        android:layout_height="57dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginTop="17dp"
+        android:text="Please fill in the event's details"
+        android:textColor="@android:color/tertiary_text_light"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/managerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="manager name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:hint="manager name" />
 
     <EditText
         android:id="@+id/date"
@@ -29,17 +100,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="215dp"
-        android:capitalize="none"
+        android:layout_marginTop="320dp"
         android:ems="10"
-        android:hint="date 00/00/00"
-        android:inputType="date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="159dp"
-        tools:text="@string/date_of_event_00_00_00" />
+        android:inputType="textPersonName"
+        android:hint="date 00/00/00" />
 
     <EditText
         android:id="@+id/time"
@@ -47,58 +111,42 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="273dp"
+        android:layout_marginTop="240dp"
         android:ems="10"
-        android:hint="time 00:00"
-        android:inputType="time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="204dp"
-        tools:text="@string/time_of_date_00_00" />
+        android:inputType="textPersonName"
+        android:hint="time 00:00"/>
 
     <EditText
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="400dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="address"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="249dp" />
+        android:hint="address" />
 
     <EditText
+
         android:id="@+id/nameOfevent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="101dp"
-        android:layout_marginLeft="101dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="555dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
         android:ems="10"
-        android:hint="nameOfevent"
         android:inputType="textPersonName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:hint="name Of event" />
 
     <Button
         android:id="@+id/btnsubmit"
-        android:layout_width="wrap_content"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="95dp"
+        android:layout_marginBottom="90dp"
+        android:background="@drawable/custom_button1"
         android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.457"
