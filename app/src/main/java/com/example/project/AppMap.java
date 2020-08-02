@@ -1,16 +1,16 @@
 package com.example.project;
 
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Pair;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,7 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.firestore.GeoPoint;
+import com.google.maps.android.SphericalUtil;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.TreeSet;
 
 public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -66,19 +67,26 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
         mMap = googleMap;
         String path = "/data/data/com.example.project/files/";
-        // Add a marker in Sydney and move the camera
+
         LatLng point;
-        Context context =this;
-        point = getLocationFromAddress(context,"Sydney");
+        Context context = this;
 
-        LatLng sydney = new LatLng(-34, 151);
+        point = getLocationFromAddress(context,address);
+        createMarkOnMap(point);
+        LatLng from = new LatLng(Float.parseFloat("33.44138"), Float.parseFloat("-111.97500000000002"));
+        LatLng to = new LatLng(Float.parseFloat("33.505904166596224"), Float.parseFloat("-112.09470748901367"));
+        double distanceBetween = SphericalUtil.computeDistanceBetween(from, to);//returns distance in meters
 
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        OpenFileForPeerInfo(path, eventname);
+        OpenFileForPeerInfo(path, eventname, context);
     }
 
-    private void OpenFileForPeerInfo(String path, String eventname) {
+    private void createMarkOnMap(LatLng point) {
+        mMap.addMarker(new MarkerOptions().position(point).title("My address"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
+
+    }
+
+    private void OpenFileForPeerInfo(String path, String eventname, Context context) {
         try {
             //open details
             inputStream = new FileInputStream(path + eventname + "_partic_details.txt");
@@ -88,15 +96,26 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
         Reader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        TreeSet<Point> distance = new TreeSet<>();
+        LatLng useraddress = getLocationFromAddress(context, address);
         try {
             int count = 0;
-            String line, text = "";
+            String name = "", line, text = "";
             while ((line = bufferedReader.readLine()) != null) {
                 text += ("          " + line);
                 if (count % 2 != 0) {
                     CreatePeerInfo(text);
+                    LatLng peeraddress = getLocationFromAddress(context, line);
+                    createMarkOnMap(peeraddress);
+                    Double distanceBetween = SphericalUtil.computeDistanceBetween(peeraddress, useraddress);
+                    Point pr =new Point(distanceBetween, name);
+                    distance.add(pr);
                     text = "";
                 }
+                else{
+                    name = line;
+                }
+
                 ++count;
             }
 
@@ -116,17 +135,6 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         add_btn.setText(text);
         rl.addView(add_btn, layoutParams);
 
-//
-//            RelativeLayout llMain = findViewById(R.id.rel);
-//            TextView textView = new TextView(this);
-//            textView.setText("I am added dynamically to the view");
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//           params.setMargins(100, 350+y, 100, 640);
-//            y = y + 150;
-//
-//            textView.setLayoutParams(params);
-//            llMain.addView(textView);
         final Context context = this;
     }
 
@@ -154,6 +162,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
             return p1;
         }
+
 
 }
 
