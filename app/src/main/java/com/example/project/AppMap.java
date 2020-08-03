@@ -27,15 +27,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
 public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    String address, eventname;
+    String address, eventname, user;
     int y = 0;
     InputStream inputStream;
+    TreeSet<Point> distance = new TreeSet<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +46,12 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         Intent in = getIntent();
         address = in.getStringExtra("address");
         eventname = in.getStringExtra("eventname");
-
+        user = in.getStringExtra("username");
         setContentView(R.layout.activity_app_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
 
     }
 
@@ -73,11 +76,10 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
         point = getLocationFromAddress(context,address);
         createMarkOnMap(point);
-        LatLng from = new LatLng(Float.parseFloat("33.44138"), Float.parseFloat("-111.97500000000002"));
-        LatLng to = new LatLng(Float.parseFloat("33.505904166596224"), Float.parseFloat("-112.09470748901367"));
-        double distanceBetween = SphericalUtil.computeDistanceBetween(from, to);//returns distance in meters
 
         OpenFileForPeerInfo(path, eventname, context);
+        get3ClosestPeers();
+
     }
 
     private void createMarkOnMap(LatLng point) {
@@ -96,15 +98,18 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
         Reader inputStreamReader = new InputStreamReader(inputStream);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-        TreeSet<Point> distance = new TreeSet<>();
+
         LatLng useraddress = getLocationFromAddress(context, address);
         try {
             int count = 0;
             String name = "", line, text = "";
             while ((line = bufferedReader.readLine()) != null) {
                 text += ("          " + line);
+                if(count==2){
+                    count=0;
+                    continue;
+                }
                 if (count % 2 != 0) {
-                    CreatePeerInfo(text);
                     LatLng peeraddress = getLocationFromAddress(context, line);
                     createMarkOnMap(peeraddress);
                     Double distanceBetween = SphericalUtil.computeDistanceBetween(peeraddress, useraddress);
@@ -124,8 +129,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-
-    private void CreatePeerInfo(String text) {
+        private void CreatePeerInfo(String text) {
         final RelativeLayout rl = (RelativeLayout) findViewById(R.id.rel);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -163,6 +167,19 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
             return p1;
         }
 
+private void get3ClosestPeers(){
+    Iterator iterator;
+    iterator = distance.iterator();
+        for(int i=0; i<4;++i) {
+            if(iterator.hasNext()) {
+                point = (Point) iterator.next();
+                if (point.getPair().second.equals(user))
+                    continue;
+                CreatePeerInfo(point.getPair().second);
+            }
+        }
+}
+private Point point;
 
 }
 

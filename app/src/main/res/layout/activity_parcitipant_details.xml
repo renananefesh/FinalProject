@@ -64,7 +64,7 @@
         android:layout_marginTop="118dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="depart location" />
+        android:hint="street name, number, town" />
 
     <TextView
         android:id="@+id/type_of_traveler"
@@ -83,7 +83,6 @@
         android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
 

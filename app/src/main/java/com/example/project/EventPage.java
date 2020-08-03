@@ -53,23 +53,13 @@ public class EventPage extends AppCompatActivity {
             }
         } catch (Exception e) {
         }
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(100, 950 + x, 100, 640);
-        x = x + 150;
-        TextView add_text = new TextView(this);
-
-        add_text.setText(address);
-
-        rl.addView(add_text, layoutParams);
-        final Context context = this;
         goToMapActivity();
     }
         public void goToMapActivity() {
             Intent intent = new Intent(this, AppMap.class);
             intent.putExtra("address", address);
             intent.putExtra("eventname", eventname);
+            intent.putExtra("username", user);
             startActivity(intent);
         }
 

@@ -10,20 +10,25 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.Reader;
 
 
 public class activity_manager extends AppCompatActivity {
     EditText managerName, date, time, address, nameOfevent;
     Button button;
     validation valid;
-    String managernametext,datetext,timetext,addresstext,nameofeventtext, path, path2;
+    String managernametext, datetext, timetext, addresstext, nameofeventtext, path, path2, text;
 
 
     @Override
@@ -37,7 +42,6 @@ public class activity_manager extends AppCompatActivity {
         nameOfevent = (EditText) findViewById(R.id.nameOfevent);
 
 
-
         valid = new validation();
 
         button = findViewById(R.id.btnsubmit);
@@ -45,21 +49,43 @@ public class activity_manager extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                  managernametext =  managerName.getText().toString();
-                  datetext = date.getText().toString();
-                  timetext =  time.getText().toString();
-                  addresstext = address.getText().toString();
-                  nameofeventtext = nameOfevent.getText().toString();
-                path ="/data/data/com.example.project/files/"+nameofeventtext+".txt";
+                managernametext = managerName.getText().toString();
+                datetext = date.getText().toString();
+                timetext = time.getText().toString();
+                addresstext = address.getText().toString();
+                nameofeventtext = nameOfevent.getText().toString();
+
+                path = "/data/data/com.example.project/files/" + nameofeventtext + ".txt";
                 path2 = "/data/data/com.example.project/files/eventnames.txt";
+
+                BufferedReader bufferedReader = null;
+                Reader inputStreamReader;
+
+                try {
+                    FileInputStream inputStream = new FileInputStream(path2);
+                    inputStreamReader = new InputStreamReader(inputStream);
+                    bufferedReader = new BufferedReader(inputStreamReader);
+                } catch (Exception e) {
+
+                }
+
+                try {
+                    while ((text = bufferedReader.readLine()) != null) {
+                        if (text.equals(nameofeventtext)) {
+                            Toast.makeText(activity_manager.this, "name of event already taken. Please choose a different name", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                } catch (IOException e) {
+                }
+
                 if (validAll()) {
-                    try(FileWriter fw = new FileWriter(path, true);
-                        BufferedWriter bw = new BufferedWriter(fw);
-                        PrintWriter out = new PrintWriter(bw);
-                    FileWriter fw2 = new FileWriter(path2, true);
-                    BufferedWriter bw2 = new BufferedWriter(fw2);
-                    PrintWriter out2 = new PrintWriter(bw2))
-                    {
+                    try (FileWriter fw = new FileWriter(path, true);
+                         BufferedWriter bw = new BufferedWriter(fw);
+                         PrintWriter out = new PrintWriter(bw);
+                         FileWriter fw2 = new FileWriter(path2, true);
+                         BufferedWriter bw2 = new BufferedWriter(fw2);
+                         PrintWriter out2 = new PrintWriter(bw2)) {
                         out.println(managernametext);
                         out.println(nameofeventtext);
                         out.println(datetext);
@@ -72,15 +98,16 @@ public class activity_manager extends AppCompatActivity {
                     }
                     getNumEvent();
                 }
-            }
 
+
+            }
         });
     }
 
     //here the manager will send a link to the people he wants to join or any other way
     public void getNumEvent() {
         Intent intent = new Intent(this, getNumEvent.class);
-      //  for him to go to userEvents
+        //  for him to go to userEvents
         intent.putExtra("username", managernametext);
         intent.putExtra("eventname", nameofeventtext);
         startActivity(intent);
@@ -94,6 +121,7 @@ public class activity_manager extends AppCompatActivity {
         return false;
 
     }
+
     //function that check if the user did not insert values to the fields
     public boolean isEmpty() {
         String Time = time.getText().toString();

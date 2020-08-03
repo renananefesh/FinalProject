@@ -1,6 +1,6 @@
 talya
-nemal tel aviv,Tel aviv, Israel
-gal
-arlozorov 9, Tel aviv
-dave
-48 hapisga, Jerusalem
+hahagana 10 Tel aviv
+passenger
+renan
+yafo 21, Jerusalem
+driver
