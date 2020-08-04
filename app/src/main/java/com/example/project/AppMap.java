@@ -40,7 +40,7 @@ import javax.mail.MessagingException;
 public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    String address, eventname, user;
+    String address, eventname, user, email;
     int y = 0;
     InputStream inputStream;
     TreeSet<Point> distance = new TreeSet<>();
@@ -55,9 +55,9 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         user = in.getStringExtra("username");
         setContentView(R.layout.activity_app_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
     }
 
@@ -72,8 +72,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
+    public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
         String path = "/data/data/com.example.project/files/";
@@ -81,17 +80,12 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         LatLng point;
         Context context = this;
 
-        point = getLocationFromAddress(context,address);
+        point = getLocationFromAddress(context, address);
         createMarkOnMap(point);
 
         OpenFileForPeerInfo(path, eventname, context);
         get3ClosestPeers();
-//        JavaEmail javaEmail = new JavaEmail();
-//        try {
-//            javaEmail.hi();
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
     private void createMarkOnMap(LatLng point) {
@@ -99,6 +93,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
 
     }
+
     private void OpenFileForPeerInfo(String path, String eventname, Context context) {
         try {
             //open details
@@ -116,20 +111,14 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
             String name = "", line, text = "";
             while ((line = bufferedReader.readLine()) != null) {
                 text += ("          " + line);
-                //for passenger/driver
-                if(count==2){
-                    count=0;
-                    continue;
-                }
                 if (count % 2 != 0) {
                     LatLng peeraddress = getLocationFromAddress(context, line);
                     createMarkOnMap(peeraddress);
                     Double distanceBetween = SphericalUtil.computeDistanceBetween(peeraddress, useraddress);
-                    Point pr =new Point(distanceBetween, name);
+                    Point pr = new Point(distanceBetween, name);
                     distance.add(pr);
                     text = "";
-                }
-                else{
+                } else {
                     name = line;
                 }
 
@@ -141,7 +130,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-        private void CreatePeerInfo(String text) {
+    private void CreatePeerInfo(final String text) {
         final RelativeLayout rl = (RelativeLayout) findViewById(R.id.rel);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -150,53 +139,83 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         final Button add_btn = new Button(this);
         add_btn.setText(text);
         rl.addView(add_btn, layoutParams);
-            add_btn.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-                public void onClick(View v) {
-                    try {
-                        new GmailSender().execute();
-                    } catch (Exception e) {
-                        Log.e("SendMail", e.getMessage(), e);
-                    }
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                email = getPeersMailAddress(text);
 
+                try {
+                    new GmailSender(email, user).execute();
+                } catch (Exception e) {
+                    Log.e("SendMail", e.getMessage(), e);
                 }
-            });
+
+            }
+
+        });
 
 
         final Context context = this;
-        };
+    }
+
+    ;
+
+    private String getPeersMailAddress(String peer) {
+        String path = "/data/data/com.example.project/files/test.txt", text;
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Reader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 
-
-        public LatLng getLocationFromAddress (Context context, String strAddress){
-
-            Geocoder coder = new Geocoder(context);
-            List<Address> address;
-            LatLng p1 = null;
-
-            try {
-                // May throw an IOException
-                address = coder.getFromLocationName(strAddress, 5);
-                if (address == null) {
-                    return null;
+        try {
+            //open test.txt and find email of user you want to join
+            while ((text = bufferedReader.readLine()) != null) {
+                if (text.equals(peer)) {
+                    text = bufferedReader.readLine();
+                    return bufferedReader.readLine();
                 }
+            }
+        } catch (IOException e) {
 
-                Address location = address.get(0);
-                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        return "null";
+    }
 
-            } catch (IOException ex) {
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
 
-                ex.printStackTrace();
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
             }
 
-            return p1;
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
         }
 
-private void get3ClosestPeers(){
-    Iterator iterator;
-    iterator = distance.iterator();
-    int count =0;
+        return p1;
+    }
+
+
+        private void get3ClosestPeers () {
+            Iterator iterator;
+            iterator = distance.iterator();
+            int count = 0;
             while (iterator.hasNext()) {
                 point = (Point) iterator.next();
                 if (point.getPair().second.equals(user))
@@ -206,7 +225,7 @@ private void get3ClosestPeers(){
             }
         }
 
-private Point point;
+        private Point point;
 
-}
+    }
 

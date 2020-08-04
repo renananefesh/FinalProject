@@ -20,13 +20,20 @@ public class GmailSender extends  AsyncTask<Void, Void, Void> {
     Session mailSession;
     MimeMessage emailMessage;
     String emailHost = "smtp.gmail.com";
-    String fromUser = "talyasterman";//just the id alone without @gmail.com
-    String fromUserEmailPassword = "Gm55436!";
+    String fromUser = "way2goapp7";//just the id alone without @gmail.com
+    String fromUserEmailPassword = "Way2go111";
+    private String email;
+    private String user;
+
+    public GmailSender(String email, String user) {
+        this.email = email;
+        this.user =user;
+    }
 
     public void send() throws AddressException,
             MessagingException {
 
-        GmailSender GmailSender = new GmailSender();
+        GmailSender GmailSender = new GmailSender(email, user);
 
         GmailSender.setMailServerProperties();
         GmailSender.createEmailMessage();
@@ -46,7 +53,7 @@ public class GmailSender extends  AsyncTask<Void, Void, Void> {
 
     public void createEmailMessage() throws AddressException,
             MessagingException {
-        String[] toEmails = {"talyastar@gmail.com"};
+        String[] toEmails = {email};
         String emailSubject = "Java Email";
         String emailBody = "This is an email sent by JavaMail api.";
 
