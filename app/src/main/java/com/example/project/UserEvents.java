@@ -138,8 +138,6 @@ public class UserEvents extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-
                 nameofevent= add_btn.getText().toString();
                 Intent intent = new Intent(context, EventPage.class);
                 intent.putExtra("username", user);

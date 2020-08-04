@@ -26,7 +26,6 @@ public class LoginPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("onCreate", "in create");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
         login_button = (Button) findViewById(R.id.loginbutton);

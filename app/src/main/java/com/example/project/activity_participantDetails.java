@@ -100,11 +100,6 @@ public class activity_participantDetails extends AppCompatActivity {
                              PrintWriter out = new PrintWriter(bw)) {
                             out.println(username);
                             out.println(departlocation);
-                          Boolean type =  checkWhatInfoWasFilled(out, v);
-                            if(type)
-                                out.println("driver");
-                            else
-                                out.println("passenger");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -121,25 +116,25 @@ public class activity_participantDetails extends AppCompatActivity {
         });
     }
 
-    //this function Check if driver radio button was clicked and write his details in file
-    private boolean checkWhatInfoWasFilled(PrintWriter out, @NotNull View v) {
-        RadioButton p =  findViewById(R.id.passenger);
-        RadioButton d = findViewById(R.id.driver);
-                if (d.isChecked()) {
-                    return true;
-//                    out.println(emptySpots);
-//                    out.println(leavingtime);
-//                    out.println(price);
-//                    out.println("driver");
-//                    break;
-                }
-           else if(p.isChecked())
-                return false;
-          //  out.println("passenger");
-          //  break;
-
-        return true;
-    }
+//    //this function Check if driver radio button was clicked and write his details in file
+//    private boolean checkWhatInfoWasFilled(PrintWriter out, @NotNull View v) {
+//        RadioButton p =  findViewById(R.id.passenger);
+//        RadioButton d = findViewById(R.id.driver);
+//                if (d.isChecked()) {
+//                    return true;
+////                    out.println(emptySpots);
+////                    out.println(leavingtime);
+////                    out.println(price);
+////                    out.println("driver");
+////                    break;
+//                }
+//           else if(p.isChecked())
+//                return false;
+//          //  out.println("passenger");
+//          //  break;
+//
+//        return true;
+//    }
 
     private void goToUserEventPage() {
         Intent intent = new Intent(this, UserEvents.class);
