@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Pair;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,6 +34,8 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
+
+import javax.mail.MessagingException;
 
 public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -66,7 +72,8 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)
+    {
 
         mMap = googleMap;
         String path = "/data/data/com.example.project/files/";
@@ -79,7 +86,12 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
         OpenFileForPeerInfo(path, eventname, context);
         get3ClosestPeers();
-
+//        JavaEmail javaEmail = new JavaEmail();
+//        try {
+//            javaEmail.hi();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void createMarkOnMap(LatLng point) {
@@ -87,7 +99,6 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
 
     }
-
     private void OpenFileForPeerInfo(String path, String eventname, Context context) {
         try {
             //open details
@@ -105,6 +116,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
             String name = "", line, text = "";
             while ((line = bufferedReader.readLine()) != null) {
                 text += ("          " + line);
+                //for passenger/driver
                 if(count==2){
                     count=0;
                     continue;
@@ -138,9 +150,23 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         final Button add_btn = new Button(this);
         add_btn.setText(text);
         rl.addView(add_btn, layoutParams);
+            add_btn.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onClick(View v) {
+                    try {
+                        new GmailSender().execute();
+                    } catch (Exception e) {
+                        Log.e("SendMail", e.getMessage(), e);
+                    }
+
+                }
+            });
+
 
         final Context context = this;
-    }
+        };
+
 
 
         public LatLng getLocationFromAddress (Context context, String strAddress){
@@ -170,15 +196,16 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 private void get3ClosestPeers(){
     Iterator iterator;
     iterator = distance.iterator();
-        for(int i=0; i<4;++i) {
-            if(iterator.hasNext()) {
+    int count =0;
+            while (iterator.hasNext()) {
                 point = (Point) iterator.next();
                 if (point.getPair().second.equals(user))
                     continue;
                 CreatePeerInfo(point.getPair().second);
+                count++;
             }
         }
-}
+
 private Point point;
 
 }

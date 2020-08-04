@@ -25,6 +25,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/activation')
+    implementation files('libs/mail')
+    implementation files('libs/additional')
+    implementation files('libs/smtp')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     //    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.maps.android:android-maps-utils:2.0.3'
@@ -45,6 +49,8 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.sun.mail:android-mail:1.6.2'
+    implementation 'com.sun.mail:android-activation:1.6.2'
 
 
 }
