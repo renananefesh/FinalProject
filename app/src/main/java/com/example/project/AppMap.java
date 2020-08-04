@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -146,7 +147,8 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
                 email = getPeersMailAddress(text);
 
                 try {
-                    new GmailSender(email, user).execute();
+                    new GmailSender(email, user, eventname).execute();
+                    Toast.makeText(AppMap.this, "you've a way2go! email was sent to the driver", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
                 }

@@ -24,16 +24,18 @@ public class GmailSender extends  AsyncTask<Void, Void, Void> {
     String fromUserEmailPassword = "Way2go111";
     private String email;
     private String user;
+    private String event;
 
-    public GmailSender(String email, String user) {
+    public GmailSender(String email, String user, String eventname) {
         this.email = email;
         this.user =user;
+        this.event = eventname;
     }
 
     public void send() throws AddressException,
             MessagingException {
 
-        GmailSender GmailSender = new GmailSender(email, user);
+        GmailSender GmailSender = new GmailSender(email, user, event);
 
         GmailSender.setMailServerProperties();
         GmailSender.createEmailMessage();
@@ -55,7 +57,7 @@ public class GmailSender extends  AsyncTask<Void, Void, Void> {
             MessagingException {
         String[] toEmails = {email};
         String emailSubject = "Java Email";
-        String emailBody = "This is an email sent by JavaMail api.";
+        String emailBody = user +" would like to join you on the way to " +event;
 
       mailSession = Session.getDefaultInstance(emailProperties, new GMailAuthenticator(fromUser,fromUserEmailPassword));
         emailMessage = new MimeMessage(mailSession);
