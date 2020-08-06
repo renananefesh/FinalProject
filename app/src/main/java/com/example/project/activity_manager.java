@@ -1,6 +1,9 @@
 package com.example.project;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -8,17 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteActivity;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,18 +25,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class activity_manager extends AppCompatActivity {
-
-
     EditText managerName, date, time, address, nameOfevent;
     Button button;
     validation valid;
     String managernametext, datetext, timetext, addresstext, nameofeventtext, path, path2, text;
-    PlacesClient placesClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,41 +44,15 @@ public class activity_manager extends AppCompatActivity {
         time = (EditText) findViewById(R.id.time);
         address = (EditText) findViewById(R.id.address);
         nameOfevent = (EditText) findViewById(R.id.nameOfevent);
-//        String apikey ="AIzaSyABnmbNg-GjCHJGr14Zd584tIKEOYdi32w";
-//        if (!Places.isInitialized()) {
-//            Places.initialize(getApplicationContext(), apikey);
-//        }
-//        placesClient=Places.createClient(this);
-//        final AutocompleteSupportFragment autocompleteSupportFragment= (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//
-//
 
-        //Places.initialize(getApplicationContext(),"AIzaSyABnmbNg-GjCHJGr14Zd584tIKEOYdi32w");
-        Places.initialize(getApplicationContext(),"AIzaSyABnmbNg-GjCHJGr14Zd584tIKEOYdi32w");
 
         valid = new validation();
-
+        final Context context =this;
         button = findViewById(R.id.btnsubmit);
-        address.setFocusable(false);
         button.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-
-                address.setOnClickListener(new View.OnClickListener() {
-                                               @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                                               @Override
-                                               public void onClick(View v) {
-
-
-                                                   List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
-                                                   Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(activity_manager.this);
-                                                   startActivityForResult(intent, 100);
-                                               }
-                                           });
-
-
-
                 managernametext = managerName.getText().toString();
                 datetext = date.getText().toString();
                 timetext = time.getText().toString();
@@ -95,7 +61,6 @@ public class activity_manager extends AppCompatActivity {
 
                 path = "/data/data/com.example.project/files/" + nameofeventtext + ".txt";
                 path2 = "/data/data/com.example.project/files/eventnames.txt";
-
 
 
                 BufferedReader bufferedReader = null;
@@ -108,7 +73,7 @@ public class activity_manager extends AppCompatActivity {
                 } catch (Exception e) {
 
                 }
-
+                //name of event is unique
                 try {
                     while ((text = bufferedReader.readLine()) != null) {
                         if (text.equals(nameofeventtext)) {
@@ -119,9 +84,7 @@ public class activity_manager extends AppCompatActivity {
                 } catch (IOException e) {
                 }
 
-
-
-                if (validAll()) {
+                if (validAll() && AddressValidation(addresstext)) {
                     try (FileWriter fw = new FileWriter(path, true);
                          BufferedWriter bw = new BufferedWriter(fw);
                          PrintWriter out = new PrintWriter(bw);
@@ -144,20 +107,6 @@ public class activity_manager extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==100 && resultCode ==RESULT_OK){
-            Place place = Autocomplete.getPlaceFromIntent(data);
-            address.setText(place.getAddress());
-
-        }
-        else if (resultCode== AutocompleteActivity.RESULT_ERROR){
-            //Toast.makeText(this, "invalid place", Toast.LENGTH_SHORT).show();
-        }
     }
 
     //here the manager will send a link to the people he wants to join or any other way
@@ -208,6 +157,9 @@ public class activity_manager extends AppCompatActivity {
         }
         return true;
     }
+    private boolean AddressValidation(String address){
 
+        return true;
 
+    }
 }

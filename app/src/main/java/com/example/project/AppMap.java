@@ -148,7 +148,7 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
 
                 try {
                     new GmailSender(email, user, eventname).execute();
-                    Toast.makeText(AppMap.this, "you've a way2go! email was sent to the driver", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AppMap.this, "you've got a way2go! email was sent to the driver", Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
                     Log.e("SendMail", e.getMessage(), e);
                 }
