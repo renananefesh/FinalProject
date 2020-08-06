@@ -214,20 +214,20 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-        private void get3ClosestPeers () {
-            Iterator iterator;
-            iterator = distance.iterator();
-            int count = 0;
-            while (iterator.hasNext()) {
-                point = (Point) iterator.next();
-                if (point.getPair().second.equals(user))
-                    continue;
-                CreatePeerInfo(point.getPair().second);
-                count++;
-            }
+    private void get3ClosestPeers () {
+        Iterator iterator;
+        iterator = distance.iterator();
+        int count = 0;
+        while (iterator.hasNext()) {
+            point = (Point) iterator.next();
+            if (point.getPair().second.equals(user))
+                continue;
+            CreatePeerInfo(point.getPair().second);
+            count++;
         }
-
-        private Point point;
-
     }
+
+    private Point point;
+
+}
 

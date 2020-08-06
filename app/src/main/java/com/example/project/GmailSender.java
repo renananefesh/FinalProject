@@ -59,7 +59,7 @@ public class GmailSender extends  AsyncTask<Void, Void, Void> {
         String emailSubject = "Java Email";
         String emailBody = user +" would like to join you on the way to " +event;
 
-      mailSession = Session.getDefaultInstance(emailProperties, new GMailAuthenticator(fromUser,fromUserEmailPassword));
+        mailSession = Session.getDefaultInstance(emailProperties, new GMailAuthenticator(fromUser,fromUserEmailPassword));
         emailMessage = new MimeMessage(mailSession);
 
 
