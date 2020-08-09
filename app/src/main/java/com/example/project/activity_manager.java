@@ -11,9 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -47,7 +54,8 @@ public class activity_manager extends AppCompatActivity {
 
 
         valid = new validation();
-        final Context context =this;
+
+
         button = findViewById(R.id.btnsubmit);
         button.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -58,6 +66,9 @@ public class activity_manager extends AppCompatActivity {
                 timetext = time.getText().toString();
                 addresstext = address.getText().toString();
                 nameofeventtext = nameOfevent.getText().toString();
+
+
+
 
                 path = "/data/data/com.example.project/files/" + nameofeventtext + ".txt";
                 path2 = "/data/data/com.example.project/files/eventnames.txt";
@@ -106,8 +117,11 @@ public class activity_manager extends AppCompatActivity {
 
 
             }
+
         });
+
     }
+
 
     //here the manager will send a link to the people he wants to join or any other way
     public void getNumEvent() {

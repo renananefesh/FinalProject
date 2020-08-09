@@ -220,9 +220,16 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
         int count = 0;
         while (iterator.hasNext()) {
             point = (Point) iterator.next();
-            if (point.getPair().second.equals(user))
+            if (point.getPair().second.equals(user) )
                 continue;
-            CreatePeerInfo(point.getPair().second);
+            else if ( point.getPair().first>6000)
+            {
+                Toast.makeText(this, "There are no people around you. Try again later", Toast.LENGTH_SHORT).show();
+                continue;
+            }
+            else{
+                CreatePeerInfo(point.getPair().second);
+            }
             count++;
         }
     }
