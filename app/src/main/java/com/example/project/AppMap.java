@@ -192,17 +192,17 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
-        List<Address> address;
+        List<Address> addreses;
         LatLng p1 = null;
 
         try {
             // May throw an IOException
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            addreses = coder.getFromLocationName(strAddress, 5);
+            if (addreses == null) {
                 return null;
             }
 
-            Address location = address.get(0);
+            Address location = addreses.get(0);
             p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (IOException ex) {
@@ -224,7 +224,6 @@ public class AppMap extends FragmentActivity implements OnMapReadyCallback {
                 continue;
             else if ( point.getPair().first>6000)
             {
-                Toast.makeText(this, "There are no people around you. Try again later", Toast.LENGTH_SHORT).show();
                 continue;
             }
             else{

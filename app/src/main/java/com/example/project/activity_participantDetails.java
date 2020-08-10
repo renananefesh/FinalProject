@@ -40,7 +40,7 @@ public class activity_participantDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parcitipant_details);
-        name = (EditText) findViewById(R.id.name);
+        //name = (EditText) findViewById(R.id.name);
         departLocation = (EditText) findViewById(R.id.depart_location);
         leavingTime = (EditText) findViewById(R.id.leaving_time);
         address = (EditText) findViewById(R.id.address);
@@ -53,12 +53,13 @@ public class activity_participantDetails extends AppCompatActivity {
         path = "/data/data/com.example.project/files/";
         Intent in = getIntent();
         numid = in.getStringExtra("number");
+        username = in.getStringExtra("username");
         valid = new validation();
         btnsubmit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                username = name.getText().toString();
+//                username = name.getText().toString();
                 departlocation = departLocation.getText().toString();
                 leavingtime = leavingTime.getText().toString();
                 emptyspots = emptySpots.getText().toString();
@@ -116,25 +117,6 @@ public class activity_participantDetails extends AppCompatActivity {
         });
     }
 
-//    //this function Check if driver radio button was clicked and write his details in file
-//    private boolean checkWhatInfoWasFilled(PrintWriter out, @NotNull View v) {
-//        RadioButton p =  findViewById(R.id.passenger);
-//        RadioButton d = findViewById(R.id.driver);
-//                if (d.isChecked()) {
-//                    return true;
-////                    out.println(emptySpots);
-////                    out.println(leavingtime);
-////                    out.println(price);
-////                    out.println("driver");
-////                    break;
-//                }
-//           else if(p.isChecked())
-//                return false;
-//          //  out.println("passenger");
-//          //  break;
-//
-//        return true;
-//    }
 
     private void goToUserEventPage() {
         Intent intent = new Intent(this, UserEvents.class);

@@ -52,6 +52,7 @@ public class ActivityParticipant extends AppCompatActivity {
     public void fillInParticipantDetails() {
         Intent intent = new Intent(this, activity_participantDetails.class);
         intent.putExtra("number", number);
+        intent.putExtra("username", user);
         startActivity(intent);
     }
 
